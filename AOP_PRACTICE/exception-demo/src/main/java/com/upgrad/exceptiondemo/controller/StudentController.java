@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,8 +28,20 @@ public class StudentController {
     @GetMapping("/v1/students")
     public ResponseEntity<List<Student>> getStudents(){
         List<Student> students = null;
-        students = service.getAllStudents();
+        try {
+            students = service.getAllStudents();
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student list is empty");
+        }
         return ResponseEntity.ok(students);
+    }
+
+    @PostMapping("/v1/student")
+    public ResponseEntity<Student> saveStudent(@Valid @RequestBody Student student) {
+
+        return ResponseEntity.ok(service.save(student));
+
     }
 
     @ExceptionHandler(RequestedResourceNotFoundException.class)
