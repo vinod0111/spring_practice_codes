@@ -1,5 +1,6 @@
 package com.upgrad.exceptiondemo.dao;
 
+import com.upgrad.exceptiondemo.exceptions.RequestedResourceNotFoundException;
 import com.upgrad.exceptiondemo.model.Student;
 import org.springframework.stereotype.Repository;
 
@@ -14,10 +15,16 @@ List<Student> students = Arrays.asList(
                             Student.builder().studentId("2").studentName("Lokesh").studentDob(LocalDate.of(1980, 9, 21).toString()).build()
                     );
     public Student findByStudentId(String studentId){
+        try{
             return students.stream()
                     .filter(s -> s.getStudentId().equals(studentId))
                     .findFirst()
                     .get();
+        }
+        catch (Exception e) {
+            throw new RequestedResourceNotFoundException();
+        }
+
 
     }
 
