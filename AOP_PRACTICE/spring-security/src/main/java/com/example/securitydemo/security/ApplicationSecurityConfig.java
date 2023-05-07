@@ -1,5 +1,6 @@
 package com.example.securitydemo.security;
 
+import com.example.securitydemo.ApplicationRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.util.Arrays;
+
+import static com.example.securitydemo.ApplicationRoles.STUDENT;
+import static com.example.securitydemo.ApplicationRoles.ADMIN;
 
 @Configuration
 @EnableWebSecurity
@@ -51,17 +55,20 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 User.builder()
                         .username("Hari")
                         .password(encoder.encode("passwd"))
-                        .roles("STUDENT")
+                        .roles(STUDENT.name())
+                        .authorities(STUDENT.getAuthority())
                         .build(),
                 User.builder()
                         .username("Umesh")
                         .password(encoder.encode("passwd"))
-                        .roles("STUDENT")
+                        .roles(STUDENT.name())
+                        .authorities(STUDENT.getAuthority())
                         .build(),
                 User.builder()
                         .username("kartik")
                         .password(encoder.encode("passwd1"))
-                        .roles("STUDENT","ADMIN")
+                        .roles(STUDENT.name(), ADMIN.name())
+                        .authorities(ADMIN.getAuthority())
                         .build()));
     }
 
