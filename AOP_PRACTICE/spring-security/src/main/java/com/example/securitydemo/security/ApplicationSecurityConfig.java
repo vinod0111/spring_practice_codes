@@ -5,6 +5,7 @@ import com.example.securitydemo.ApplicationRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -34,7 +35,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/index.html").permitAll()
                 //.antMatchers("/students/**").hasRole("STUDENT")
-                .antMatchers("/students/**").hasAuthority(ApplicationPermission.STUDENT_READ.name())
+                .antMatchers(HttpMethod.GET, "/students/**").hasAuthority(ApplicationPermission.STUDENT_READ.name())
                 .anyRequest()
                 .authenticated()
                 .and().httpBasic();
