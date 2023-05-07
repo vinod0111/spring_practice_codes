@@ -27,8 +27,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/index.html")
-                .permitAll()
+                .antMatchers("/", "/index.html").permitAll()
+                .antMatchers("/students/**").hasRole("STUDENT")
                 .anyRequest()
                 .authenticated()
                 .and().httpBasic();
@@ -57,6 +57,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         .username("Umesh")
                         .password(encoder.encode("passwd"))
                         .roles("STUDENT")
+                        .build(),
+                User.builder()
+                        .username("kartik")
+                        .password(encoder.encode("passwd1"))
+                        .roles("ADMIN")
                         .build()));
     }
 
